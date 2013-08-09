@@ -3,7 +3,7 @@ fsdir = $(datadir)/$(PACKAGE)
 fs = \
 	default-ker
 
-dist_fs_DATA = $(fs)
+dist_fs_SCRIPTS = $(fs)
 
 CLEANFILES = $(fs)
 
