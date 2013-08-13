@@ -10,7 +10,8 @@ then
 	echo "TODO !"
 	touch kernel-mptcp
 else
-	make -f Makefile.ker KERNEL_RELEASE=$1 kernel
+	make -f Makefile.ker -j4 KERNEL_RELEASE=$1 kernel
 	cp $BUILD $2
+	cp -r build/netkit/kernel/modules ../netkit-uml-filesystem/
 	make -f Makefile.ker clean-all
 fi

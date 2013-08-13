@@ -74,9 +74,9 @@ kernel: netkit-kernel
 netkit-kernel: $(BUILD_DIR)/$(KERNEL_DIR)/.config
 	echo -e "\n\e[1m\e[32m========= Compiling the kernel... ========\e[0m"
 	mkdir -p $(BUILD_DIR)/$(PACKAGE_DIR)/netkit/kernel
-	+$(MAKE) -C $(BUILD_DIR)/$(KERNEL_DIR)/ all ARCH=um SUBARCH=$(SUBARCH) INSTALL_MOD_PATH="../../$(BUILD_DIR)/$(PACKAGE_DIR)/netkit/kernel/$(MODULES_DIR)"
-	+$(MAKE) -C $(BUILD_DIR)/$(KERNEL_DIR)/ modules ARCH=um SUBARCH=$(SUBARCH) INSTALL_MOD_PATH="../../$(BUILD_DIR)/$(PACKAGE_DIR)/netkit/kernel/$(MODULES_DIR)"
-	+$(MAKE) -C $(BUILD_DIR)/$(KERNEL_DIR)/ modules_install ARCH=um SUBARCH=$(SUBARCH) INSTALL_MOD_PATH="../../$(BUILD_DIR)/$(PACKAGE_DIR)/netkit/kernel/$(MODULES_DIR)"
+	+$(MAKE) -j5 -C $(BUILD_DIR)/$(KERNEL_DIR)/ all ARCH=um SUBARCH=$(SUBARCH) INSTALL_MOD_PATH="../../$(BUILD_DIR)/$(PACKAGE_DIR)/netkit/kernel/$(MODULES_DIR)"
+	+$(MAKE) -j5 -C $(BUILD_DIR)/$(KERNEL_DIR)/ modules ARCH=um SUBARCH=$(SUBARCH) INSTALL_MOD_PATH="../../$(BUILD_DIR)/$(PACKAGE_DIR)/netkit/kernel/$(MODULES_DIR)"
+	+$(MAKE) -j5 -C $(BUILD_DIR)/$(KERNEL_DIR)/ modules_install ARCH=um SUBARCH=$(SUBARCH) INSTALL_MOD_PATH="../../$(BUILD_DIR)/$(PACKAGE_DIR)/netkit/kernel/$(MODULES_DIR)"
 	rm -f $(BUILD_DIR)/$(PACKAGE_DIR)/netkit/kernel/$(MODULES_DIR)/lib/modules/*/{source,build}
 	cp $(BUILD_DIR)/$(KERNEL_DIR)/linux $(BUILD_DIR)/$(PACKAGE_DIR)/netkit/kernel/netkit-kernel-$(SUBARCH)-$(KERNEL_RELEASE)-$(NK_KERNEL_RELEASE)
 	ln -fs netkit-kernel-$(SUBARCH)-$(KERNEL_RELEASE)-$(NK_KERNEL_RELEASE) $(BUILD_DIR)/$(PACKAGE_DIR)/netkit/kernel/netkit-kernel
