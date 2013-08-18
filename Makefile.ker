@@ -37,7 +37,7 @@ export $(KERNEL_URL)
 # The CDPATH environment variable can cause problems
 override CDPATH=
 NK_KERNEL_RELEASE=$(shell awk '/kernel version/ {print $$NF}' netkit-kernel-version)
-KERNEL_PACKAGE=linux-$(KERNEL_RELEASE)$(KERNEL_SUFFIX)
+KERNEL_PACKAGE?=linux-$(KERNEL_RELEASE)$(KERNEL_SUFFIX)
 KERNEL_DIR=$(patsubst %$(KERNEL_SUFFIX),%,$(KERNEL_PACKAGE))
 
 default: help
@@ -98,7 +98,7 @@ $(BUILD_DIR)/$(KERNEL_DIR)/.config: netkit-kernel-config-$(SUBARCH) $(BUILD_DIR)
 $(BUILD_DIR)/$(KERNEL_DIR)/.unpacked: $(KERNEL_PACKAGE)
 	echo -e "\n\e[1m\e[32m======== Unpacking the kernel... =========\e[0m"
 	mkdir -p $(BUILD_DIR)
-	unxz < $(KERNEL_PACKAGE) | tar -C $(BUILD_DIR) -xf -
+	if [ "$(KERNEL_SUFFIX)" = ".zip" ]; then unzip $(KERNEL_PACKAGE) -d $(BUILD_DIR); mv $(BUILD_DIR)/mptcp-$(KERNEL_DIR) $(BUILD_DIR)/$(KERNEL_DIR); else unxz < $(KERNEL_PACKAGE) | tar -C $(BUILD_DIR) -xf -; fi
 	: > $(BUILD_DIR)/$(KERNEL_DIR)/.unpacked
 
 $(KERNEL_PACKAGE):
